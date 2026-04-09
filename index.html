@@ -1,269 +1,210 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>xaohit | 一个普通人学AI的真实记录</title>
+    <title>xaohit - 学习记录</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #fafafa;
-        }
-        .container { max-width: 720px; margin: 0 auto; padding: 20px; }
-        
-        /* Hero */
-        .hero {
-            text-align: center;
-            padding: 60px 20px 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 12px;
-            margin-bottom: 40px;
-        }
-        .avatar {
-            width: 80px; height: 80px;
-            background: white;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 32px;
-        }
-        .hero h1 { font-size: 28px; margin-bottom: 12px; font-weight: 700; }
-        .hero p { font-size: 16px; opacity: 0.9; max-width: 500px; margin: 0 auto; }
-        
-        /* Content */
-        .section { margin-bottom: 50px; }
-        .section-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #667eea;
-            display: inline-block;
-        }
-        
-        /* Articles */
-        .article-list { display: flex; flex-direction: column; gap: 20px; }
-        .article-card {
-            background: white;
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-        .article-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-        }
-        .article-tag {
-            display: inline-block;
-            background: #f0f0f0;
-            color: #666;
-            font-size: 12px;
-            padding: 4px 10px;
-            border-radius: 20px;
-            margin-bottom: 10px;
-        }
-        .article-card h3 { font-size: 18px; margin-bottom: 8px; color: #222; }
-        .article-card p { color: #666; font-size: 14px; line-height: 1.5; }
-        .article-meta { margin-top: 12px; font-size: 13px; color: #999; }
-        
-        /* Tools */
-        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-        .tool-card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            border: 1px solid #f0f0f0;
-        }
-        .tool-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-        .tool-icon { width: 40px; height: 40px; background: #f5f5f5; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-        .tool-name { font-weight: 600; color: #222; }
-        .tool-desc { font-size: 14px; color: #666; margin-bottom: 12px; }
-        .tool-link {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-        }
-        .tool-link:hover { background: #5568d3; }
-        
-        /* Newsletter */
-        .newsletter {
-            background: white;
-            padding: 32px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            text-align: center;
-        }
-        .newsletter h3 { margin-bottom: 12px; color: #222; }
-        .newsletter p { color: #666; font-size: 14px; margin-bottom: 20px; }
-        .newsletter-form {
-            display: flex;
-            gap: 10px;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        .newsletter-form input {
-            flex: 1;
-            padding: 12px 16px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-        .newsletter-form button {
-            padding: 12px 24px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        .newsletter-form button:hover { background: #5568d3; }
-        
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: #999;
-            font-size: 13px;
-        }
-        .footer a { color: #667eea; text-decoration: none; }
-        
-        /* Mobile */
-        @media (max-width: 600px) {
-            .hero h1 { font-size: 24px; }
-            .newsletter-form { flex-direction: column; }
-            .tools-grid { grid-template-columns: 1fr; }
-        }
+        body { font-family: 'Inter', sans-serif; }
+        .prose-custom { line-height: 1.75; }
     </style>
 </head>
-<body>
-    <div class="container">
-        <!-- Hero -->
-        <div class="hero">
-            <div class="avatar">🧠</div>
-            <h1>xaohit</h1>
-            <p>一个正在转专业、用AI搭建知识管理系统的普通人。<br>这里记录我的真实学习路径，没有捷径，只有踩坑。</p>
-        </div>
-
-        <!-- Latest Articles -->
-        <div class="section">
-            <h2 class="section-title">最新文章</h2>
-            <div class="article-list">
-                <a href="#article1" class="article-card">
-                    <span class="article-tag">知识管理</span>
-                    <h3>转专业第30天：为什么我放弃Notion选择了Obsidian</h3>
-                    <p>从 roam-like 到本地优先，一个文科生如何用Palace系统管理跨学科知识。</p>
-                    <div class="article-meta">2026年4月9日 · 阅读 5 分钟</div>
-                </a>
-                
-                <a href="#article2" class="article-card">
-                    <span class="article-tag">AI工具</span>
-                    <h3>Cursor + Claude：零基础搭建个人网站的72小时实录</h3>
-                    <p>不会代码，如何用AI工具做出这个网站？详细步骤和踩坑记录。</p>
-                    <div class="article-meta">2026年4月5日 · 阅读 8 分钟</div>
-                </a>
-                
-                <a href="#article3" class="article-card">
-                    <span class="article-tag">认知升级</span>
-                    <h3>「这不就是XX吗」：警惕AI学习中的廉价批评陷阱</h3>
-                    <p>花叔的一篇推文让我反思：为什么我们总是急于否定新事物？</p>
-                    <div class="article-meta">2026年4月9日 · 阅读 3 分钟</div>
-                </a>
+<body class="bg-gray-50 text-gray-900">
+    
+    <!-- Header -->
+    <header class="max-w-2xl mx-auto px-6 py-12 md:py-16">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xl font-medium">
+                x
+            </div>
+            <div>
+                <h1 class="text-xl font-semibold tracking-tight">xaohit</h1>
+                <p class="text-sm text-gray-500">正在转专业的普通人</p>
             </div>
         </div>
+        
+        <p class="text-lg text-gray-600 leading-relaxed max-w-lg">
+            记录用 AI 搭建知识管理系统的真实过程。没有捷径，只有踩坑。
+        </p>
+        
+        <div class="flex gap-4 mt-6 text-sm">
+            <a href="#writing" class="text-indigo-600 hover:text-indigo-700 font-medium">文章</a>
+            <span class="text-gray-300">·</span>
+            <a href="#tools" class="text-gray-500 hover:text-gray-700">工具</a>
+            <span class="text-gray-300">·</span>
+            <a href="#newsletter" class="text-gray-500 hover:text-gray-700">订阅</a>
+        </div>
+    </header>
 
-        <!-- Tools I Use (Affiliate) -->
-        <div class="section">
-            <h2 class="section-title">我用的工具</h2>
-            <p style="color:#666;font-size:14px;margin-bottom:20px;">这些是我真实在用的工具，通过链接购买我可能获得佣金（不影响你的价格）</p>
+    <!-- Main Content -->
+    <main class="max-w-2xl mx-auto px-6 pb-20">
+        
+        <!-- Writing Section -->
+        <section id="writing" class="mb-16">
+            <h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-6">最新文章</h2>
             
-            <div class="tools-grid">
-                <div class="tool-card">
-                    <div class="tool-header">
-                        <div class="tool-icon">🎯</div>
-                        <div class="tool-name">Cursor</div>
+            <div class="space-y-6">
+                <article class="group">
+                    <a href="#" class="block -mx-3 px-3 py-3 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900 group-hover:text-indigo-600 transition-colors mb-1">
+                                    转专业第30天：为什么我放弃 Notion 选择了 Obsidian
+                                </h3>
+                                <p class="text-sm text-gray-500 line-clamp-2">
+                                    从 roam-like 到本地优先，一个文科生如何用 Palace 系统管理跨学科知识...
+                                </p>
+                                <div class="flex items-center gap-3 mt-2 text-xs text-gray-400">
+                                    <span>2026年4月9日</span>
+                                    <span>·</span>
+                                    <span>5分钟阅读</span>
+                                </div>
+                            </div>
+                            <svg class="w-5 h-5 text-gray-300 group-hover:text-indigo-500 transition-colors flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="group">
+                    <a href="#" class="block -mx-3 px-3 py-3 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900 group-hover:text-indigo-600 transition-colors mb-1">
+                                    Cursor + Claude：零基础搭建个人网站的72小时实录
+                                </h3>
+                                <p class="text-sm text-gray-500 line-clamp-2">
+                                    不会代码，如何用 AI 工具做出这个网站？详细步骤和踩坑记录...
+                                </p>
+                                <div class="flex items-center gap-3 mt-2 text-xs text-gray-400">
+                                    <span>2026年4月5日</span>
+                                    <span>·</span>
+                                    <span>8分钟阅读</span>
+                                </div>
+                            </div>
+                            <svg class="w-5 h-5 text-gray-300 group-hover:text-indigo-500 transition-colors flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="group">
+                    <a href="#" class="block -mx-3 px-3 py-3 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900 group-hover:text-indigo-600 transition-colors mb-1">
+                                    「这不就是XX吗」：警惕 AI 学习中的廉价批评陷阱
+                                </h3>
+                                <p class="text-sm text-gray-500 line-clamp-2">
+                                    花叔的一篇推文让我反思：为什么我们总是急于否定新事物？
+                                </p>
+                                <div class="flex items-center gap-3 mt-2 text-xs text-gray-400">
+                                    <span>2026年4月9日</span>
+                                    <span>·</span>
+                                    <span>3分钟阅读</span>
+                                </div>
+                            </div>
+                            <svg class="w-5 h-5 text-gray-300 group-hover:text-indigo-500 transition-colors flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <!-- Tools Section -->
+        <section id="tools" class="mb-16">
+            <h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-6">我用的工具</h2>
+            
+            <div class="grid gap-4">
+                <div class="flex items-start gap-4 p-4 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-10 h-10 bg-black rounded-lg flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                        Cu
                     </div>
-                    <div class="tool-desc">AI驱动的代码编辑器，让我这个零基础的人能做出网站和自动化脚本。</div>
-                    <a href="https://cursor.sh" class="tool-link" target="_blank">免费下载 →</a>
+                    <div class="flex-1">
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="font-medium text-gray-900">Cursor</h3>
+                            <a href="https://cursor.sh" target="_blank" class="text-xs text-indigo-600 hover:text-indigo-700 font-medium">→</a>
+                        </div>
+                        <p class="text-sm text-gray-500">AI 驱动的代码编辑器，让零基础的人也能做网站</p>
+                    </div>
                 </div>
-                
-                <div class="tool-card">
-                    <div class="tool-header">
-                        <div class="tool-icon">📝</div>
-                        <div class="tool-name">Obsidian</div>
+
+                <div class="flex items-start gap-4 p-4 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center text-white text-lg flex-shrink-0">
+                        ◆
                     </div>
-                    <div class="tool-desc">本地优先的笔记软件，Palace系统的载体。所有数据在自己手里。</div>
-                    <a href="https://obsidian.md" class="tool-link" target="_blank">免费下载 →</a>
+                    <div class="flex-1">
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="font-medium text-gray-900">Obsidian</h3>
+                            <a href="https://obsidian.md" target="_blank" class="text-xs text-indigo-600 hover:text-indigo-700 font-medium">→</a>
+                        </div>
+                        <p class="text-sm text-gray-500">本地优先的笔记软件，Palace 系统的载体</p>
+                    </div>
                 </div>
-                
-                <div class="tool-card">
-                    <div class="tool-header">
-                        <div class="tool-icon">🤖</div>
-                        <div class="tool-name">Claude</div>
+
+                <div class="flex items-start gap-4 p-4 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                        Cl
                     </div>
-                    <div class="tool-desc">我的AI学习伙伴。比ChatGPT更适合深度思考和长文本处理。</div>
-                    <a href="https://claude.ai" class="tool-link" target="_blank">免费试用 →</a>
-                </div>
-                
-                <div class="tool-card">
-                    <div class="tool-header">
-                        <div class="tool-icon">⚡</div>
-                        <div class="tool-name">Vercel</div>
+                    <div class="flex-1">
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="font-medium text-gray-900">Claude</h3>
+                            <a href="https://claude.ai" target="_blank" class="text-xs text-indigo-600 hover:text-indigo-700 font-medium">→</a>
+                        </div>
+                        <p class="text-sm text-gray-500">AI 学习伙伴，比 ChatGPT 更适合深度思考</p>
                     </div>
-                    <div class="tool-desc">免费部署网站，自动HTTPS，全球CDN加速。技术小白也能5分钟上线。</div>
-                    <a href="https://vercel.com" class="tool-link" target="_blank">免费部署 →</a>
                 </div>
             </div>
-        </div>
+            
+            <p class="text-xs text-gray-400 mt-4">
+                通过链接购买我可能获得佣金（不影响你的价格）
+            </p>
+        </section>
 
         <!-- Newsletter -->
-        <div class="section">
-            <div class="newsletter">
-                <h3>订阅我的AI学习周报</h3>
-                <p>每周一封，分享我本周学到的AI工具、踩的坑、和 Palace 系统的新进展。<br>不贩卖焦虑，只记录真实。</p>
-                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('感谢订阅！（演示模式，需接入邮件服务）');">
-                    <input type="email" placeholder="your@email.com" required>
-                    <button type="submit">订阅</button>
-                </form>
-                <p style="font-size:12px;color:#999;margin-top:12px;">每周五发送，随时可退订，无垃圾邮件。</p>
+        <section id="newsletter" class="bg-indigo-50 rounded-2xl p-8">
+            <h2 class="font-semibold text-gray-900 mb-2">订阅学习周报</h2>
+            <p class="text-sm text-gray-600 mb-6">
+                每周一封，分享本周学到的 AI 工具和 Palace 系统进展。没有焦虑，只有记录。
+            </p>
+            
+            <form class="flex gap-3" onsubmit="event.preventDefault(); alert('感谢订阅！（演示模式）');">
+                <input 
+                    type="email" 
+                    placeholder="your@email.com" 
+                    class="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    required
+                >
+                <button 
+                    type="submit" 
+                    class="px-5 py-2.5 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors"
+                >
+                    订阅
+                </button>
+            </form>
+            
+            <p class="text-xs text-gray-400 mt-3">随时可退订，无垃圾邮件</p>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="max-w-2xl mx-auto px-6 py-8 border-t border-gray-200">
+        <div class="flex items-center justify-between text-sm text-gray-400">
+            <span>© 2026 xaohit</span>
+            <div class="flex gap-4">
+                <a href="https://github.com/xaohit" class="hover:text-gray-600 transition-colors">GitHub</a>
+                <a href="#" class="hover:text-gray-600 transition-colors">RSS</a>
             </div>
         </div>
+    </footer>
 
-        <!-- Footer -->
-        <div class="footer">
-            <p>Built with Cursor + Claude ·  Hosted on Vercel</p>
-            <p style="margin-top:8px;"><a href="https://github.com/xaohit">GitHub</a> · <a href="#">RSS</a></p>
-        </div>
-    </div>
-
-    <!-- Simple analytics (optional) -->
-    <script>
-        // Track page view (replace with real analytics like Google Analytics or Umami)
-        console.log('Page viewed');
-        
-        // Track tool clicks
-        document.querySelectorAll('.tool-link').forEach(link => {
-            link.addEventListener('click', function() {
-                console.log('Tool clicked:', this.href);
-                // Here you would send to your analytics
-            });
-        });
-    </script>
 </body>
 </html>
