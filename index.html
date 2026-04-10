@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>xaohit</title>
+    <title>xaohit | 人生轨迹</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,484 +14,690 @@
         }
 
         :root {
-            --bg: #0a0a0b;
-            --text: #f5f5f0;
-            --muted: #6b6b6b;
-            --accent: #ff6b35;
-            --accent-soft: #ff6b3520;
+            --bg: #0d0d0d;
+            --bg-card: #141414;
+            --text: #e8e8e8;
+            --text-muted: #666;
+            --border: #222;
+            --done: #22c55e;
+            --abandoned: #ef4444;
+            --ongoing: #f59e0b;
+            --paused: #6b7280;
+            --accent: #3b82f6;
         }
 
         body {
-            font-family: 'Space Mono', monospace;
+            font-family: 'Inter', -apple-system, sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
             min-height: 100vh;
         }
 
-        /* Grain texture overlay */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 100;
+        /* Header */
+        .header {
+            padding: 60px 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        /* Navigation dots */
-        .nav-dots {
-            position: fixed;
-            right: 40px;
-            top: 50%;
-            transform: translateY(-50%);
+        .header h1 {
+            font-size: 32px;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .header .subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .legend {
             display: flex;
-            flex-direction: column;
-            gap: 16px;
-            z-index: 50;
+            gap: 20px;
+            margin-top: 24px;
+            font-size: 12px;
+            flex-wrap: wrap;
         }
 
-        .nav-dot {
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+        }
+
+        .legend-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: var(--muted);
-            transition: all 0.3s ease;
         }
 
-        .nav-dot:hover,
-        .nav-dot.active {
-            background: var(--accent);
-            transform: scale(1.5);
-        }
-
-        /* Main container */
-        .container {
-            max-width: 900px;
+        /* Timeline Container */
+        .timeline {
+            max-width: 800px;
             margin: 0 auto;
-            padding: 120px 60px;
+            padding: 40px;
+            position: relative;
         }
 
-        /* Hero section */
-        .hero {
-            min-height: 70vh;
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 59px;
+            top: 60px;
+            bottom: 60px;
+            width: 1px;
+            background: var(--border);
+        }
+
+        /* Timeline Item */
+        .timeline-item {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 48px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .timeline-item:hover {
+            opacity: 0.9;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Status Dot */
+        .status-dot {
+            position: absolute;
+            left: 54px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid var(--bg);
+            z-index: 1;
+        }
+
+        .status-dot.done { background: var(--done); }
+        .status-dot.abandoned { background: var(--abandoned); }
+        .status-dot.ongoing { background: var(--ongoing); animation: pulse 2s infinite; }
+        .status-dot.paused { background: var(--paused); }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Card */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px 24px;
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            border-color: #333;
+        }
+
+        .card.expanded {
+            border-color: var(--accent);
+        }
+
+        .card-header {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
         }
 
-        .hero-label {
+        .card-date {
+            font-family: 'JetBrains Mono', monospace;
             font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--accent);
-            margin-bottom: 40px;
+            color: var(--text-muted);
         }
 
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(48px, 8vw, 96px);
-            font-weight: 400;
-            line-height: 1.1;
-            margin-bottom: 40px;
-            letter-spacing: -0.02em;
-        }
-
-        .hero h1 em {
-            font-style: italic;
-            color: var(--accent);
-        }
-
-        .hero-desc {
+        .card-title {
             font-size: 16px;
-            color: var(--muted);
-            max-width: 500px;
-            margin-bottom: 60px;
+            font-weight: 500;
+            margin-bottom: 4px;
         }
 
-        /* Asymmetric layout for articles */
-        .section {
-            margin-bottom: 120px;
-            position: relative;
+        .card-summary {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
         }
 
-        .section-label {
+        .card-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 11px;
+            padding: 2px 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            color: var(--text-muted);
+        }
+
+        /* Expanded Content */
+        .card-detail {
+            display: none;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .card.expanded .card-detail {
+            display: block;
+        }
+
+        .detail-section {
+            margin-bottom: 16px;
+        }
+
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
             font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--muted);
-            margin-bottom: 60px;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .detail-text {
+            font-size: 13px;
+            line-height: 1.7;
+            color: var(--text);
+        }
+
+        .insight-box {
+            background: rgba(59, 130, 246, 0.08);
+            border-left: 2px solid var(--accent);
+            padding: 12px 16px;
+            border-radius: 0 4px 4px 0;
+            margin-top: 8px;
+        }
+
+        /* Related Nodes */
+        .related-links {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .related-link {
+            font-size: 12px;
+            color: var(--accent);
+            text-decoration: none;
+            padding: 4px 10px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .related-link:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        /* Stats Section */
+        .stats {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 16px;
         }
 
-        .section-label::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, var(--muted), transparent);
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
         }
 
-        /* Article list - editorial style */
-        .articles {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-        }
-
-        .article {
-            position: relative;
-            padding: 40px 0;
-            border-bottom: 1px solid #1a1a1a;
-            transition: all 0.4s ease;
-        }
-
-        .article:first-child {
-            padding-top: 0;
-        }
-
-        .article:hover {
-            padding-left: 20px;
-        }
-
-        .article:hover .article-title {
-            color: var(--accent);
-        }
-
-        .article-number {
-            position: absolute;
-            left: -60px;
-            top: 40px;
-            font-size: 12px;
-            color: var(--muted);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .article:hover .article-number {
-            opacity: 1;
-        }
-
-        .article:first-child .article-number {
-            top: 0;
-        }
-
-        .article-meta {
-            font-size: 12px;
-            color: var(--muted);
-            margin-bottom: 12px;
-            display: flex;
-            gap: 20px;
-        }
-
-        .article-title {
-            font-family: 'Playfair Display', serif;
+        .stat-number {
+            font-family: 'JetBrains Mono', monospace;
             font-size: 28px;
-            font-weight: 400;
-            line-height: 1.3;
-            margin-bottom: 16px;
-            transition: color 0.3s ease;
-            cursor: pointer;
+            font-weight: 500;
+            margin-bottom: 4px;
         }
 
-        .article-excerpt {
-            font-size: 14px;
-            color: var(--muted);
-            line-height: 1.7;
-            max-width: 600px;
-        }
-
-        /* Tools section - horizontal layout */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2px;
-            background: #1a1a1a;
-        }
-
-        .tool-card {
-            background: var(--bg);
-            padding: 40px 30px;
-            transition: all 0.3s ease;
-        }
-
-        .tool-card:hover {
-            background: #111;
-        }
-
-        .tool-card:hover .tool-name {
-            color: var(--accent);
-        }
-
-        .tool-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 20px;
-            margin-bottom: 12px;
-            transition: color 0.3s ease;
-        }
-
-        .tool-desc {
-            font-size: 13px;
-            color: var(--muted);
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .tool-link {
+        .stat-label {
             font-size: 12px;
-            color: var(--text);
-            text-decoration: none;
-            border-bottom: 1px solid var(--muted);
-            padding-bottom: 2px;
-            transition: all 0.3s ease;
-        }
-
-        .tool-link:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        /* Newsletter - minimal */
-        .newsletter {
-            border: 1px solid #1a1a1a;
-            padding: 60px;
-            position: relative;
-        }
-
-        .newsletter::before {
-            content: '\\';
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 60px;
-            color: var(--accent-soft);
-            font-family: 'Playfair Display', serif;
-        }
-
-        .newsletter h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 32px;
-            font-weight: 400;
-            margin-bottom: 20px;
-        }
-
-        .newsletter p {
-            color: var(--muted);
-            font-size: 14px;
-            margin-bottom: 40px;
-            max-width: 400px;
-        }
-
-        .newsletter-form {
-            display: flex;
-            gap: 0;
-            border-bottom: 1px solid var(--muted);
-        }
-
-        .newsletter-form input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 16px 0;
-            color: var(--text);
-            font-family: 'Space Mono', monospace;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .newsletter-form input::placeholder {
-            color: var(--muted);
-        }
-
-        .newsletter-form button {
-            background: transparent;
-            border: none;
-            color: var(--text);
-            font-family: 'Space Mono', monospace;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            cursor: pointer;
-            padding: 16px 0 16px 20px;
-            transition: color 0.3s ease;
-        }
-
-        .newsletter-form button:hover {
-            color: var(--accent);
+            color: var(--text-muted);
         }
 
         /* Footer */
         .footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 60px;
-            border-top: 1px solid #1a1a1a;
-            font-size: 12px;
-            color: var(--muted);
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 40px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
         }
 
-        .footer a {
-            color: var(--muted);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer a:hover {
-            color: var(--accent);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 60px 30px;
+        /* Mobile */
+        @media (max-width: 600px) {
+            .header, .timeline, .stats, .footer {
+                padding-left: 20px;
+                padding-right: 20px;
             }
 
-            .nav-dots {
-                display: none;
+            .timeline::before {
+                left: 39px;
             }
 
-            .tools-grid {
-                grid-template-columns: 1fr;
+            .timeline-item {
+                padding-left: 40px;
             }
 
-            .article-number {
-                display: none;
+            .status-dot {
+                left: 34px;
             }
-
-            .newsletter {
-                padding: 40px 30px;
-            }
-        }
-
-        /* Custom selection color */
-        ::selection {
-            background: var(--accent-soft);
-            color: var(--text);
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigation dots -->
-    <div class="nav-dots">
-        <div class="nav-dot active"></div>
-        <div class="nav-dot"></div>
-        <div class="nav-dot"></div>
-        <div class="nav-dot"></div>
-    </div>
+    <header class="header">
+        <h1>xaohit</h1>
+        <div class="subtitle">人生轨迹可视化 / Life Trajectory</div>
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-dot" style="background: var(--done)"></div>
+                <span>已完成</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: var(--ongoing)"></div>
+                <span>进行中</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: var(--abandoned)"></div>
+                <span>已放弃</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: var(--paused)"></div>
+                <span>暂停</span>
+            </div>
+        </div>
+    </header>
 
-    <div class="container">
-        
-        <!-- Hero -->
-        <header class="hero">
-            <div class="hero-label">Learning in Public</div>
-            <h1>
-                A student<br>
-                learning <em>AI</em><br>
-                the hard way.
-            </h1>
-            <p class="hero-desc">
-                记录用 AI 搭建知识管理系统的真实过程。从转专业到出海 SaaS，没有捷径，只有踩坑。
-            </p>
-        </header>
+    <main class="timeline">
+        <!-- 初中 -->
+        <div class="timeline-item" onclick="toggleCard(this)">
+            <div class="status-dot done"></div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-date">~2018</div>
+                </div>
+                <h3 class="card-title">社交哲学形成</h3>
+                <p class="card-summary">开始有意识地筛选身边伙伴，形成基于价值交换和风险共担的社交策略。</p>
+                <div class="card-tags">
+                    <span class="tag">#生存哲学</span>
+                    <span class="tag">#中国视角</span>
+                </div>
+                <div class="card-detail">
+                    <div class="detail-section">
+                        <div class="detail-label">背景</div>
+                        <div class="detail-text">初中时期开始有意识地选择交往对象——成绩好的、能带来正反馈的、在班级事务中有作用的（纪律委员、课代表）。与他们交好能给自己带来便利。</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">核心策略</div>
+                        <div class="detail-text">做事时找上一个人，出于<strong>风险共担</strong>的考虑——如果这件事出问题，受罚的不只是我一个人。</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">关键洞察</div>
+                        <div class="insight-box">
+                            这套社交哲学不是从书本学的，是基于在中国生存实践积累下来的。嘴上不讲，心里遵守——中国社会几千年翻来覆去就是这样。
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">后续影响</div>
+                        <div class="related-links">
+                            <a href="#" class="related-link" onclick="event.stopPropagation(); scrollToNode('reading')">→ 中国视角构建</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <!-- Articles -->
-        <section class="section">
-            <div class="section-label">Recent Writing</div>
+        <!-- 高中 -->
+        <div class="timeline-item" id="reading" onclick="toggleCard(this)">
+            <div class="status-dot done"></div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-date">~2021</div>
+                </div>
+                <h3 class="card-title">中国视角构建</h3>
+                <p class="card-summary">系统阅读吴思、费孝通、基辛格，形成理解中国社会的认知框架。</p>
+                <div class="card-tags">
+                    <span class="tag">#潜规则</span>
+                    <span class="tag">#血酬定律</span>
+                    <span class="tag">#乡土中国</span>
+                    <span class="tag">#厚黑学</span>
+                </div>
+                <div class="card-detail">
+                    <div class="detail-section">
+                        <div class="detail-label">阅读清单</div>
+                        <div class="detail-text">
+                            • 《潜规则》《血酬定律》— 吴思<br>
+                            • 《乡土中国》— 费孝通<br>
+                            • 《厚黑学》— 李宗吾（高中校长推荐）<br>
+                            • 《论中国》— 基辛格<br>
+                            • 《君主论》— 马基雅维利
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">核心认知</div>
+                        <div class="detail-text">不排斥中国这套传统生存哲学，甚至觉得理所当然。新时代大家嘴上不讲，心理还是遵守。这些书共同构建了理解中国权力结构和社会运行的思维模式。</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">关键洞察</div>
+                        <div class="insight-box">
+                            像乔布斯、马斯克这些人的思维方式，天然就是西方那一套，在中国这片土地上可能水土不服。但这世上存在通用的智慧，要意识到当前是在中国，所以思考问题的角度要自然转向中国的思维方式。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 赌场调研 -->
+        <div class="timeline-item" onclick="toggleCard(this)">
+            <div class="status-dot abandoned"></div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-date">~2024</div>
+                </div>
+                <h3 class="card-title">美国赌场服务业调研</h3>
+                <p class="card-summary">探索"确定性收入来源"的可能性，最终发现底层工作无法提供控制感而放弃。</p>
+                <div class="card-tags">
+                    <span class="tag">#放弃</span>
+                    <span class="tag">#控制感</span>
+                    <span class="tag">#底层工作</span>
+                </div>
+                <div class="card-detail">
+                    <div class="detail-section">
+                        <div class="detail-label">动机</div>
+                        <div class="detail-text">寻找一种"确定性收入来源"，能够提供稳定现金流，支持更大的目标。</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">过程</div>
+                        <div class="detail-text">调研美国赌场服务业市场，分析收入结构、工作强度、职业路径。</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">放弃原因</div>
+                        <div class="insight-box">
+                            底层工作无法实现控制感的目标。时间换钱的路径与"建立系统、获得杠杆"的长期目标相悖。
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">模式识别</div>
+                        <div class="detail-text">这是第一次明显的"高兴趣启动 → 发现不确定性/体力劳动成本 → 理性分析放弃"循环。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OpenClaw -->
+        <div class="timeline-item" onclick="toggleCard(this)">
+            <div class="status-dot abandoned"></div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-date">2025.01 - 2025.04</div>
+                </div>
+                <h3 class="card-title">OpenClaw 使用</h3>
+                <p class="card-summary">3个月的深度使用，积累了大量经验，但最终因记忆系统问题而离开。</p>
+                <div class="card-tags">
+                    <span class="tag">#放弃</span>
+                    <span class="tag">#AI工具</span>
+                    <span class="tag">#记忆系统</span>
+                </div>
+                <div class="card-detail">
+                    <div class="detail-section">
+                        <div class="detail-label">使用时长</div>
+                        <div class="detail-text">约3个月，是接触 AI Agent 的入门工具。</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">核心痛点</div>
+                        <div class="detail-text">
+                            • <strong>Context waste</strong> — 上下文浪费，每次加载 ~2000 tokens<br>
+                            • <strong>记忆系统不稳定</strong> — 担心明天打开 AI 就失忆、变蠢<br>
+                            • <strong>进步机制不足</strong> — 没有主动改进/学习循环
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">离开原因</div>
+                        <div class="insight-box">
+                            OpenClaw PTSD：核心需求是"AI 能越来越懂我"，但产品无法提供稳定的长期记忆保障。
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">收获</div>
+                        <div class="detail-text">明确了真正的需求：能记住、会联想、自动更新、不用费力的 AI 协作系统。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 小红书 -->
+        <div class="timeline-item" onclick="toggleCard(this)">
+            <div class="status-dot abandoned"></div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-date">2025.04</div>
+                </div>
+                <h3 class="card-title">小红书自动化探索</h3>
+                <p class="card-summary">尝试"无需人际的自动化收入"路径，因人际压力触发回避模式而崩溃放弃。</p>
+                <div class="card-tags">
+                    <span class="tag">#放弃</span>
+                    <span class="tag">#自媒体</span>
+                    <span class="tag">#人际压力</span>
+                </div>
+                <div class="card-detail">
+                    <div class="detail-section">
+                        <div class="detail-label">目标</div>
+                        <div class="detail-text">寻找"无需人际的自动化收入"——通过 AI 生成内容，在小红书获取流量变现。</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">崩溃点</div>
+                        <div class="detail-text">发现自媒体运营需要大量人际互动（评论区维护、用户互动、不确定性反馈），触发回避模式。</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">关键洞察</div>
+                        <div class="insight-box">
+                            高野心 vs 回避型人格的冲突。想要成功（需要曝光、社交、承受不确定性），但人格特质厌恶这些。
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">后续转向</div>
+                        <div class="related-links">
+                            <a href="#" class="related-link" onclick="event.stopPropagation(); scrollToNode('hermes')">→ 自建 Hermes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hermes -->
+        <div class="timeline-item" id="hermes" onclick="toggleCard(this)">
+            <div class="status-dot done"></div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-date">2026.04.06</div>
+                </div>
+                <h3 class="card-title">Hermes 自建</h3>
+                <p class="card-summary">2天时间自建 AI 基础设施，超越 3 个月 OpenClaw 的进展。</p>
+                <div class="card-tags">
+                    <span class="tag">#基建</span>
+                    <span class="tag">#Palace</span>
+                    <span class="tag">#Local-first</span>
+                </div>
+                <div class="card-detail">
+                    <div class="detail-section">
+                        <div class="detail-label">对比</div>
+                        <div class="detail-text">OpenClaw：3个月，最终离开。<br>Hermes：2天，走得更深。</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">核心架构</div>
+                        <div class="detail-text">
+                            • <strong>Palace 记忆系统</strong> — Wing/Hall/Room 空间结构<br>
+                            • <strong>Dream 自动整理</strong> — 凌晨3点自动运行记忆整合<br>
+                            • <strong>Cron 任务调度</strong> — 每小时自动保存、每日系统自检<br>
+                            • <strong>Telegram 网关</strong> — 移动端无缝接入<br>
+                            • <strong>Local-first</strong> — 数据主权，不依赖平台
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">关键突破</div>
+                        <div class="insight-box">
+                            把 AI 定位为"合伙人"而非"顺从仆人"。双向成长，AI 主动 push 用户，挑战盲区。
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">用户反馈</div>
+                        <div class="detail-text">"你才结识2天，但比我之前3个月的 OpenClaw 走的更远，我觉得这是一种进步。"</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 转专业 -->
+        <div class="timeline-item" onclick="toggleCard(this)">
+            <div class="status-dot ongoing"></div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-date">2026.04</div>
+                </div>
+                <h3 class="card-title">转专业</h3>
+                <p class="card-summary">从原专业转向新领域，笔试已通过，面试准备中。窗口期短暂但关键。</p>
+                <div class="card-tags">
+                    <span class="tag">#进行中</span>
+                    <span class="tag">#转型</span>
+                    <span class="tag">#学业</span>
+                </div>
+                <div class="card-detail">
+                    <div class="detail-section">
+                        <div class="detail-label">状态</div>
+                        <div class="detail-text">笔试已通过，正在准备面试。这是一个短暂但关键的窗口期。</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">Hermes 的作用</div>
+                        <div class="detail-text">意识到作为学生，帮助搭建知识体系可能是现阶段的用法。Palace 系统用于管理跨学科知识。</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">挑战</div>
+                        <div class="detail-text">行动力差 — 虽然一直在准备，但容易拖延。需要外部 push。</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">下一步</div>
+                        <div class="related-links">
+                            <a href="#" class="related-link" onclick="event.stopPropagation()">面试准备 →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 网站重做 -->
+        <div class="timeline-item" onclick="toggleCard(this)">
+            <div class="status-dot ongoing"></div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-date">2026.04.10</div>
+                </div>
+                <h3 class="card-title">人生轨迹可视化</h3>
+                <p class="card-summary">放弃虚假的博客定位，转向面向自己的真实记录。网站就是这个时间线。</p>
+                <div class="card-tags">
+                    <span class="tag">#进行中</span>
+                    <span class="tag">#可视化</span>
+                    <span class="tag">#真实记录</span>
+                </div>
+                <div class="card-detail">
+                    <div class="detail-section">
+                        <div class="detail-label">放弃的博客定位</div>
+                        <div class="detail-text">之前尝试做"AI工具教学"、"出海SaaS"，但全是没经历过的虚假内容，只能编占位符。</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">新方向</div>
+                        <div class="detail-text">面向自己的真实记录。每个节点都是真实发生的事件，有具体的情境、决策、结果、反思。</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">设计原则</div>
+                        <div class="insight-box">
+                            不是展示成功的 portfolio，而是记录真实的轨迹 — 包括放弃和失败。这才是对自己有价值的。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="stats">
+        <div class="stat-card">
+            <div class="stat-number" style="color: var(--done)">3</div>
+            <div class="stat-label">已完成</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" style="color: var(--ongoing)">2</div>
+            <div class="stat-label">进行中</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" style="color: var(--abandoned)">3</div>
+            <div class="stat-label">已放弃</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" style="color: var(--text)">7</div>
+            <div class="stat-label">总节点</div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>Last updated: 2026.04.10</p>
+        <p style="margin-top: 8px; font-size: 11px;">Built with Hermes · Powered by Palace</p>
+    </footer>
+
+    <script>
+        function toggleCard(item) {
+            const card = item.querySelector('.card');
+            const isExpanded = card.classList.contains('expanded');
             
-            <div class="articles">
-                <article class="article">
-                    <span class="article-number">01</span>
-                    <div class="article-meta">
-                        <span>Apr 9, 2026</span>
-                        <span>5 min read</span>
-                    </div>
-                    <h3 class="article-title">Why I left Notion for Obsidian</h3>
-                    <p class="article-excerpt">
-                        从 roam-like 到本地优先，一个文科生如何用 Palace 系统管理跨学科知识...
-                    </p>
-                </article>
-
-                <article class="article">
-                    <span class="article-number">02</span>
-                    <div class="article-meta">
-                        <span>Apr 5, 2026</span>
-                        <span>8 min read</span>
-                    </div>
-                    <h3 class="article-title">Building a website with Cursor: 72 hours</h3>
-                    <p class="article-excerpt">
-                        不会代码，如何用 AI 工具做出这个网站？详细步骤和踩坑记录...
-                    </p>
-                </article>
-
-                <article class="article">
-                    <span class="article-number">03</span>
-                    <div class="article-meta">
-                        <span>Apr 9, 2026</span>
-                        <span>3 min read</span>
-                    </div>
-                    <h3 class="article-title">"It's just X with Y": The trap of cheap critique</h3>
-                    <p class="article-excerpt">
-                        花叔的一篇推文让我反思：为什么我们总是急于否定新事物？
-                    </p>
-                </article>
-            </div>
-        </section>
-
-        <!-- Tools -->
-        <section class="section">
-            <div class="section-label">Toolkit</div>
+            // Close all other cards
+            document.querySelectorAll('.card.expanded').forEach(c => {
+                if (c !== card) c.classList.remove('expanded');
+            });
             
-            <div class="tools-grid">
-                <div class="tool-card">
-                    <div class="tool-name">Cursor</div>
-                    <p class="tool-desc">AI-powered editor that lets non-coders build real websites</p>
-                    <a href="https://cursor.sh" class="tool-link" target="_blank">Get it →</a>
-                </div>
+            // Toggle current
+            card.classList.toggle('expanded', !isExpanded);
+        }
 
-                <div class="tool-card">
-                    <div class="tool-name">Obsidian</div>
-                    <p class="tool-desc">Local-first notes. My Palace system lives here.</p>
-                    <a href="https://obsidian.md" class="tool-link" target="_blank">Get it →</a>
-                </div>
-
-                <div class="tool-card">
-                    <div class="tool-name">Claude</div>
-                    <p class="tool-desc">Better than ChatGPT for deep thinking and long context.</p>
-                    <a href="https://claude.ai" class="tool-link" target="_blank">Try it →</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Newsletter -->
-        <section class="section">
-            <div class="newsletter">
-                <h3>Weekly Notes</h3>
-                <p>One email per week. No growth hacks, no AI anxiety. Just what I learned and built.</p>
-                <form class="newsletter-form" onsubmit="event.preventDefault(); this.innerHTML='<span style=\\'color:var(--accent)\\'>Thanks. You\\'re in.</span>';">
-                    <input type="email" placeholder="your@email.com" required>
-                    <button type="submit">Subscribe</button>
-                </form>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <span>© 2026 xaohit</span>
-            <div style="display: flex; gap: 30px;">
-                <a href="https://github.com/xaohit">GitHub</a>
-                <a href="#">RSS</a>
-            </div>
-        </footer>
-
-    </div>
+        function scrollToNode(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // Auto expand after scroll
+                setTimeout(() => {
+                    element.querySelector('.card').classList.add('expanded');
+                }, 500);
+            }
+        }
+    </script>
 
 </body>
 </html>
