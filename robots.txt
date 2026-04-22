@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://xaohit-ai-site.vercel.app/sitemap.xml
