@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xaohit | 自动化诊断</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0a;
+            --bg-elevated: #111111;
+            --bg-card: #161616;
+            --border: #1e1e1e;
+            --border-hover: #2a2a2a;
+            --text: #ededed;
+            --text-secondary: #888;
+            --text-muted: #555;
+            --accent: #c9a96e;
+            --accent-dim: #c9a96e33;
+            --done: #4ade80;
+            --done-dim: #4ade801a;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+        .back {
+            display: inline-block;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            margin-bottom: 40px;
+            transition: color 0.2s;
+        }
+        .back:hover { color: var(--text-secondary); }
+        .hero {
+            margin-bottom: 64px;
+        }
+        .hero-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+        .hero-title {
+            font-size: 36px;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+        .hero-desc {
+            font-size: 17px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 560px;
+        }
+        .section {
+            margin-bottom: 56px;
+        }
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 20px;
+        }
+        .case {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+        }
+        .case:hover { border-color: var(--border-hover); }
+        .case-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .case-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .case-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 12px;
+        }
+        .pricing {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 32px;
+            text-align: center;
+        }
+        .pricing-price {
+            font-size: 48px;
+            font-weight: 600;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .pricing-price span {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+        .pricing-note {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .pricing-features {
+            text-align: left;
+            max-width: 320px;
+            margin: 0 auto 24px;
+            list-style: none;
+        }
+        .pricing-features li {
+            padding: 8px 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+        .pricing-features li:last-child { border-bottom: none; }
+        .pricing-features li::before {
+            content: "✓";
+            color: var(--done);
+            margin-right: 10px;
+        }
+        .cta {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--bg);
+            padding: 14px 32px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: opacity 0.2s;
+        }
+        .cta:hover { opacity: 0.9; }
+        .contact {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 16px;
+        }
+        .contact a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        .contact a:hover { color: var(--text); }
+        .philosophy {
+            border-left: 2px solid var(--accent);
+            padding-left: 20px;
+            margin: 32px 0;
+        }
+        .philosophy p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-style: italic;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 48px 20px; }
+            .hero-title { font-size: 28px; }
+            .pricing-price { font-size: 36px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back">← 返回首页</a>
+
+        <div class="hero">
+            <div class="hero-tag">SERVICES</div>
+            <div class="hero-title">自动化诊断</div>
+            <div class="hero-desc">
+                把你的重复工作变成自动运行的代码。不开会、不扯皮、零人际接触。
+                我只交付文档、代码和录屏——你按文档执行，系统自己运转。
+            </div>
+        </div>
+
+        <div class="philosophy">
+            <p>"这不是劳动交换，这是系统套利。别人花 3 天手动做的事，我用 3 小时自动化掉。"</p>
+        </div>
+
+        <div class="section">
+            <div class="section-title">案例</div>
+
+            <div class="case">
+                <div class="case-title">信号扫描自动化</div>
+                <div class="case-desc">
+                    每天手动浏览 10+ 个信息源，耗时 1.5 小时。搭建 Agent 自动扫描、筛选、生成报告，耗时降至 0。
+                    30 天产出 3 份信号报告、1 篇深度文章、2 份系统洞察。
+                </div>
+                <div class="case-meta">Palace/six6 · Python · cron · AI Agent</div>
+            </div>
+
+            <div class="case">
+                <div class="case-title">内容生产流水线</div>
+                <div class="case-desc">
+                    从信息收集到深度文章，传统流程需要 2-3 小时/篇。搭建自动化流水线后，Agent 自动生成初稿，
+                    人工只做最终审核，效率提升 10 倍。
+                </div>
+                <div class="case-meta">LLM · Markdown · GitHub · Vercel</div>
+            </div>
+
+            <div class="case">
+                <div class="case-title">状态追踪系统</div>
+                <div class="case-desc">
+                    多任务并行时，手动检查状态耗时且易遗漏。搭建自动检测引擎，每小时扫描所有任务，
+                    实时更新看板，失败自动告警。
+                </div>
+                <div class="case-meta">Python · JSON · Git · 自动化</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">服务</div>
+            <div class="pricing">
+                <div class="pricing-price">$49<span> / ¥350</span></div>
+                <div class="pricing-note">首发价 · 验证市场后上调至 $99</div>
+                <ul class="pricing-features">
+                    <li>1 份流程审计报告（找出可自动化环节）</li>
+                    <li>1 套自动化方案（工具选型 + 配置代码）</li>
+                    <li>1 个 15 分钟录屏演示（How it works）</li>
+                    <li>全程异步交付 · 零 meetings</li>
+                </ul>
+                <a href="https://t.me/xaohit_bot" class="cta" target="_blank">在 Telegram 联系我</a>
+                <div class="contact">
+                    或发邮件至 <a href="mailto:xaohit@example.com">xaohit@example.com</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">适合谁</div>
+            <div class="case">
+                <div class="case-title">自由职业者</div>
+                <div class="case-desc">重复性工作占用创作时间，想自动化但不知从何下手。</div>
+            </div>
+            <div class="case">
+                <div class="case-title">小微团队（1-5 人）</div>
+                <div class="case-desc">没有技术栈，但有很多手动流程需要优化。</div>
+            </div>
+            <div class="case">
+                <div class="case-title">内容创作者</div>
+                <div class="case-desc">多平台分发、数据分析、内容排程等重复工作占据大量时间。</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">关于我</div>
+            <div class="case-desc" style="color: var(--text-secondary);">
+                回避型人格、系统构建者、转专业中的学生。我的核心能力不是"懂很多技术"，
+                而是<strong style="color: var(--text);">用系统绕过性格缺陷</strong>。
+                我启动困难，就让 cron 自动触发；我回避人际，就让 Agent 做所有对外输出；我容易焦虑，就让系统每小时自检。
+                这套方法论我已经在自己身上验证了 30 天，现在想帮有同样痛点的人搭建属于他们的自动化系统。
+            </div>
+        </div>
+    </div>
+</body>
+</html>
