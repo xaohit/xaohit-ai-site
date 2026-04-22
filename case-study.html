@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xaohit | 我是如何用 AI Agent 每天省 3 小时的</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0a;
+            --bg-elevated: #111111;
+            --bg-card: #161616;
+            --border: #1e1e1e;
+            --border-hover: #2a2a2a;
+            --text: #ededed;
+            --text-secondary: #888;
+            --text-muted: #555;
+            --accent: #c9a96e;
+            --accent-dim: #c9a96e33;
+            --done: #4ade80;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+        .back {
+            display: inline-block;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            margin-bottom: 40px;
+            transition: color 0.2s;
+        }
+        .back:hover { color: var(--text-secondary); }
+        .hero {
+            margin-bottom: 48px;
+        }
+        .hero-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+        .hero-title {
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 1.25;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+        .hero-desc {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .section {
+            margin-bottom: 48px;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            letter-spacing: -0.01em;
+        }
+        .section-body {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+        .section-body strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+        .highlight {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin: 20px 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .highlight strong {
+            color: var(--text);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 24px 0;
+        }
+        .stat-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        .stat-box .number {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+        .stat-box .label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .cta-box {
+            background: var(--accent-dim);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 32px;
+        }
+        .cta-box p {
+            font-size: 15px;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+        .cta-box a {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--bg);
+            padding: 12px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+        @media (max-width: 600px) {
+            .container { padding: 48px 20px; }
+            .hero-title { font-size: 26px; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back">← 返回首页</a>
+
+        <div class="hero">
+            <div class="hero-tag">CASE STUDY</div>
+            <div class="hero-title">我是如何用 AI Agent 每天省 3 小时的</div>
+            <div class="hero-desc">这不是一个"未来趋势"的预测，这是一个已经运行了 30 天的系统的真实记录。</div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">问题</div>
+            <div class="section-body">
+                我是一个回避型人格的学生，正在转专业（日语 → 旅游管理）。我的目标是 1000 万财富自由，但我的性格决定了我不可能走传统路径——受不了开会、启动困难、社交压力会让我崩溃。
+            </div>
+            <div class="section-body">
+                核心约束是：<strong>零人际、零会议、高自动化、高杠杆。</strong>
+            </div>
+            <div class="section-body">
+                但信息太多了。每天浏览 arXiv、GitHub、行业新闻就要 2-3 小时。加上分析、决策、记录，一天就过去了。我不是在创业，我是在当信息处理的奴隶。
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">传统方案为什么不行</div>
+            <div class="section-body">
+                <strong>雇助理</strong>：需要沟通管理，对回避型是灾难，¥3000+/月。<br>
+                <strong>自己硬扛</strong>：信息过载，决策疲劳，洞察全散在聊天记录里。<br>
+                <strong>RSS 工具</strong>：只能被动推送，不能分析、不能决策、不能生成文章。
+            </div>
+            <div class="highlight">
+                我需要的是一个<strong>自动化系统</strong>，不是另一个信息入口。
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">我的方案：Palace + six6</div>
+            <div class="section-body">
+                核心逻辑：<strong>Agent 扫描信号 → 生成洞察 → 写入 Palace → 推送给用户</strong>
+            </div>
+            <div class="section-body">
+                <strong>第一层：信号扫描（自动化）</strong><br>
+                cron 定时触发，Agent 自动执行 signal-scan、arxiv-digest、github-monitor、daily-picks。
+            </div>
+            <div class="section-body">
+                <strong>第二层：深度处理（自动化）</strong><br>
+                deep-write 自动生成文章，insight-gen 生成系统洞察，palace-evolve 自动分析瓶颈。
+            </div>
+            <div class="section-body">
+                <strong>第三层：状态追踪（自动化）</strong><br>
+                update_state.py 每小时检测所有任务状态，自动修复失败任务。
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">30 天结果</div>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="number">3h+</div>
+                    <div class="label">每天节省时间</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">3</div>
+                    <div class="label">份信号报告</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">1</div>
+                    <div class="label">篇深度文章</div>
+                </div>
+            </div>
+            <div class="section-body">
+                <strong>时间节省</strong>：信号扫描 1.5h→0、文章撰写 2-3h→0、状态追踪 30min→0。<br>
+                <strong>关键决策</strong>：确认 Affiliate + No-Code 咨询两条收入路径，识别旅游+AI 交叉机会。<br>
+                <strong>系统可靠性</strong>：从"cron 触发但 agent 不产出"升级到"强制验证 + 自动修复"。
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">可复制</div>
+            <div class="section-body">
+                设计哲学：<strong>Local-first、异步交付、强制验证、渐进改进。</strong>
+            </div>
+            <div class="section-body">
+                你需要：一台能跑 Python 的设备（我的 ZTE W200DS，ARM64，6 核，5GB RAM）、cron 调度器、Agent 框架。3-4 小时初始搭建。
+            </div>
+            <div class="section-body">
+                不需要：云服务、API Key、团队、会议。
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">为什么对我有效</div>
+            <div class="section-body">
+                回避型人格的隐藏优势：<strong>对系统有执念。</strong>
+            </div>
+            <div class="highlight">
+                当普通人还在"努力克服性格缺陷"的时候，我在做另一件事——<strong>用系统绕过性格缺陷。</strong>
+            </div>
+            <div class="section-body">
+                我启动困难？让 cron 自动触发，不需要我"启动"。<br>
+                我回避人际？让 Agent 做所有对外输出，我只看文档。<br>
+                我容易焦虑？让系统每小时自检，用数据告诉我"一切正常"。
+            </div>
+            <div class="section-body">
+                这不是"更好的自己"，这是<strong>更好的系统</strong>。
+            </div>
+        </div>
+
+        <div class="cta-box">
+            <p>如果你也有重复性工作想自动化，或者你想看看这套系统的具体代码——</p>
+            <a href="services.html">了解自动化诊断服务 →</a>
+        </div>
+
+        <div class="meta">
+            基于 Palace/six6 系统 2026-04-22 的真实运行数据。<br>
+            系统开源在 GitHub: xaohit/nanobot-palace（持续迭代中）
+        </div>
+    </div>
+</body>
+</html>
