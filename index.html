@@ -3,599 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="SMsC4TaTwdUPIjpSdn650jXpgbIpEAZa8A61zNGwwzs" />
-    <title>xaohit | 人生轨迹</title>
+    <title>xaohit | AI × 系统 × 自动化</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg: #0a0a0a;
-            --bg-elevated: #111111;
-            --bg-card: #161616;
-            --border: #1e1e1e;
-            --border-hover: #2a2a2a;
-            --text: #ededed;
-            --text-secondary: #888;
-            --text-muted: #555;
-            --accent: #c9a96e;
-            --accent-dim: #c9a96e33;
-            --done: #4ade80;
-            --done-dim: #4ade801a;
-            --ongoing: #fbbf24;
-            --ongoing-dim: #fbbf241a;
-            --paused: #9ca3af;
-            --paused-dim: #9ca3af1a;
-            --abandoned: #f87171;
-            --abandoned-dim: #f871711a;
-            --planning: #60a5fa;
-            --planning-dim: #60a5fa1a;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.7;
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .container {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Hero */
-        .hero {
-            padding: 80px 0 48px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .hero-name {
-            font-family: 'Inter', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            margin-bottom: 8px;
-        }
-
-        .hero-sub {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-        }
-
-        .hero-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .badge {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            border-radius: 4px;
-            background: var(--bg-elevated);
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-        }
-
-        .badge.accent {
-            background: var(--accent-dim);
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        /* Stats */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            padding: 32px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.75rem;
-            font-weight: 500;
-            color: var(--text);
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        /* Section */
-        .section {
-            padding: 48px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .section:last-child {
-            border-bottom: none;
-        }
-
-        .section-title {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.875rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--text-muted);
-            margin-bottom: 24px;
-        }
-
-        /* Timeline */
-        .timeline {
-            position: relative;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 7px;
-            top: 8px;
-            bottom: 8px;
-            width: 1px;
-            background: var(--border);
-        }
-
-        .event {
-            position: relative;
-            padding-left: 32px;
-            padding-bottom: 32px;
-        }
-
-        .event:last-child {
-            padding-bottom: 0;
-        }
-
-        .event-dot {
-            position: absolute;
-            left: 0;
-            top: 6px;
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            border: 3px solid var(--bg);
-            z-index: 1;
-        }
-
-        .event-dot.done { background: var(--done); }
-        .event-dot.ongoing { background: var(--ongoing); }
-        .event-dot.paused { background: var(--paused); }
-        .event-dot.abandoned { background: var(--abandoned); }
-        .event-dot.planning { background: var(--planning); }
-
-        .event-header {
-            display: flex;
-            align-items: baseline;
-            gap: 12px;
-            margin-bottom: 6px;
-            flex-wrap: wrap;
-        }
-
-        .event-time {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            white-space: nowrap;
-        }
-
-        .event-title {
-            font-size: 1.05rem;
-            font-weight: 500;
-            color: var(--text);
-        }
-
-        .event-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin: 8px 0;
-        }
-
-        .tag {
-            font-size: 0.7rem;
-            padding: 2px 8px;
-            border-radius: 3px;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .tag.done { background: var(--done-dim); color: var(--done); }
-        .tag.ongoing { background: var(--ongoing-dim); color: var(--ongoing); }
-        .tag.paused { background: var(--paused-dim); color: var(--paused); }
-        .tag.abandoned { background: var(--abandoned-dim); color: var(--abandoned); }
-        .tag.planning { background: var(--planning-dim); color: var(--planning); }
-
-        .event-desc {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        .event-desc p {
-            margin-bottom: 8px;
-        }
-
-        .event-desc p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* Matrix */
-        .matrix {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        .matrix-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 20px;
-            transition: border-color 0.2s;
-        }
-
-        .matrix-card:hover {
-            border-color: var(--border-hover);
-        }
-
-        .matrix-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 12px;
-        }
-
-        .matrix-items {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .matrix-item {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .matrix-item strong {
-            color: var(--text);
-            font-weight: 500;
-        }
-
-        /* Footer */
-        .footer {
-            padding: 32px 0 48px;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-        }
-
-        .footer a {
-            color: var(--text-secondary);
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            color: var(--accent);
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .hero-name {
-                font-size: 2rem;
-            }
-
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-
-            .matrix {
-                grid-template-columns: 1fr;
-            }
-
-            .event-header {
-                flex-direction: column;
-                gap: 4px;
-            }
-        }
-
-        /* Scroll reveal */
-        .event {
-            opacity: 0;
-            transform: translateY(12px);
-            animation: reveal 0.5s ease forwards;
-        }
-
-        .event:nth-child(1) { animation-delay: 0.05s; }
-        .event:nth-child(2) { animation-delay: 0.1s; }
-        .event:nth-child(3) { animation-delay: 0.15s; }
-        .event:nth-child(4) { animation-delay: 0.2s; }
-        .event:nth-child(5) { animation-delay: 0.25s; }
-        .event:nth-child(6) { animation-delay: 0.3s; }
-        .event:nth-child(7) { animation-delay: 0.35s; }
-        .event:nth-child(8) { animation-delay: 0.4s; }
-        .event:nth-child(9) { animation-delay: 0.45s; }
-        .event:nth-child(10) { animation-delay: 0.5s; }
-        .event:nth-child(11) { animation-delay: 0.55s; }
-
-        @keyframes reveal {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Hero -->
-        <div class="hero">
-            <div class="hero-name">xaohit</div>
-            <div class="hero-sub">人生轨迹可视化 / Life Trajectory</div>
-            <div class="hero-badges">
-                <span class="badge accent">2006</span>
-                <span class="badge">四川自贡富顺</span>
-                <span class="badge">旅游管理学院</span>
-                <span class="badge">回避型人格</span>
-                <span class="badge">目标：财富自由</span>
-            </div>
-            <a href="services.html" style="display: inline-block; margin-top: 24px; padding: 10px 24px; border: 1px solid var(--accent); color: var(--accent); text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 500; transition: all 0.2s;">自动化诊断 →</a>
-            <div style="margin-top: 12px;">
-                <a href="case-study.html" style="font-size: 12px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; margin-right: 16px;">案例：AI Agent 每天省 3 小时 →</a>
-                <a href="reviews/vercel.html" style="font-size: 12px; color: var(--text-muted); text-decoration: none; transition: color 0.2s;">评测：Vercel →</a>
+    <nav class="nav">
+        <div class="nav-brand">xaohit</div>
+        <div class="nav-links">
+            <a href="#services">服务</a>
+            <a href="#about">关于</a>
+            <a href="#contact">联系</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-tag">一人公司 · 系统思维 · AI 基建</p>
+            <h1 class="hero-title">
+                用 AI 和系统思维<br>
+                帮企业解决<span class="highlight">重复劳动</span>
+            </h1>
+            <p class="hero-subtitle">
+                20岁，回避型人格，用自动化绕过性格缺陷。<br>
+                专注：客服质检、流程自动化、AI 基础设施。
+            </p>
+            <div class="hero-cta">
+                <a href="#contact" class="btn btn-primary">开始合作</a>
+                <a href="#services" class="btn btn-secondary">了解服务</a>
             </div>
         </div>
-
-        <!-- Stats -->
-        <div class="stats">
+        <div class="hero-stats">
             <div class="stat">
-                <div class="stat-number">4</div>
-                <div class="stat-label">已完成</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number">2</div>
-                <div class="stat-label">进行中</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number">1</div>
-                <div class="stat-label">暂停</div>
+                <span class="stat-num">4</span>
+                <span class="stat-label">交付系统</span>
             </div>
             <div class="stat">
-                <div class="stat-number">3</div>
-                <div class="stat-label">已放弃</div>
+                <span class="stat-num">1000h+</span>
+                <span class="stat-label">节省时间</span>
+            </div>
+            <div class="stat">
+                <span class="stat-num">0</span>
+                <span class="stat-label">人际成本</span>
             </div>
         </div>
+    </section>
 
-        <!-- Timeline -->
-        <div class="section">
-            <div class="section-title">轨迹</div>
-            <div class="timeline">
-                <div class="event">
-                    <div class="event-dot done"></div>
-                    <div class="event-header">
-                        <span class="event-time">~2018</span>
-                        <span class="event-title">社交哲学形成</span>
-                    </div>
-                    <div class="event-tags">
-                        <span class="tag done">已完成</span>
-                        <span class="tag done">生存哲学</span>
-                    </div>
-                    <div class="event-desc">
-                        <p>开始有意识地筛选身边伙伴，形成基于价值交换和风险共担的社交策略。做事时找上一个人，出于风险共担的考虑——如果这件事出问题，受罚的不只是我一个人。</p>
-                        <p>这套哲学不是从书本学的，是基于中国生存实践积累下来的。</p>
-                    </div>
+    <section class="services" id="services">
+        <h2 class="section-title">我能做什么</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🤖</div>
+                <h3>AI 客服质检系统</h3>
+                <p>自动分析客服聊天记录，8维度评分，生成个人质检报告和团队日报。解决"客服质量无法量化"的痛点。</p>
+                <div class="service-tags">
+                    <span>聊天记录分析</span>
+                    <span>8维度评分</span>
+                    <span>敏感词检测</span>
                 </div>
-
-                <div class="event">
-                    <div class="event-dot done"></div>
-                    <div class="event-header">
-                        <span class="event-time">~2021</span>
-                        <span class="event-title">中国视角构建</span>
-                    </div>
-                    <div class="event-tags">
-                        <span class="tag done">已完成</span>
-                        <span class="tag done">底层认知</span>
-                    </div>
-                    <div class="event-desc">
-                        <p>系统阅读吴思《潜规则》《血酬定律》、费孝通《乡土中国》、李宗吾《厚黑学》、基辛格《论中国》、马基雅维利《君主论》。</p>
-                        <p>形成理解中国权力结构和社会运行的认知框架。意识到在中国这片土地上，思考问题的角度要自然转向中国的思维方式。</p>
-                    </div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">⚡</div>
+                <h3>业务流程自动化</h3>
+                <p>把重复性工作变成自动化流程。数据采集、报表生成、消息推送——人工 3 小时，系统 30 秒。</p>
+                <div class="service-tags">
+                    <span>数据采集</span>
+                    <span>定时任务</span>
+                    <span>消息推送</span>
                 </div>
-
-                <div class="event">
-                    <div class="event-dot abandoned"></div>
-                    <div class="event-header">
-                        <span class="event-time">~2024</span>
-                        <span class="event-title">美国赌场服务业调研</span>
-                    </div>
-                    <div class="event-tags">
-                        <span class="tag abandoned">已放弃</span>
-                        <span class="tag abandoned">控制感</span>
-                    </div>
-                    <div class="event-desc">
-                        <p>寻找"确定性收入来源"，调研美国赌场服务业市场。最终发现底层工作无法提供控制感，时间换钱的路径与"建立系统、获得杠杆"的长期目标相悖。</p>
-                        <p>第一次明显的"高兴趣启动 → 发现成本 → 理性放弃"循环。</p>
-                    </div>
-                </div>
-
-                <div class="event">
-                    <div class="event-dot abandoned"></div>
-                    <div class="event-header">
-                        <span class="event-time">2025.01 - 2025.04</span>
-                        <span class="event-title">OpenClaw 使用</span>
-                    </div>
-                    <div class="event-tags">
-                        <span class="tag abandoned">已放弃</span>
-                        <span class="tag abandoned">记忆系统</span>
-                    </div>
-                    <div class="event-desc">
-                        <p>3个月深度使用，最终因上下文浪费、记忆系统不稳定、无主动改进循环而离开。</p>
-                        <p>收获：明确了真正的需求——能记住、会联想、自动更新、不用费力的 AI 协作系统。</p>
-                    </div>
-                </div>
-
-                <div class="event">
-                    <div class="event-dot abandoned"></div>
-                    <div class="event-header">
-                        <span class="event-time">2025.04</span>
-                        <span class="event-title">小红书自动化探索</span>
-                    </div>
-                    <div class="event-tags">
-                        <span class="tag abandoned">已放弃</span>
-                        <span class="tag abandoned">人际压力</span>
-                    </div>
-                    <div class="event-desc">
-                        <p>尝试"无需人际的自动化收入"路径。发现自媒体运营需要大量人际互动（评论区维护、用户互动），触发回避模式而崩溃放弃。</p>
-                        <p>关键洞察：高野心 vs 回避型人格的冲突。</p>
-                    </div>
-                </div>
-
-                <div class="event">
-                    <div class="event-dot done"></div>
-                    <div class="event-header">
-                        <span class="event-time">2026.04.06</span>
-                        <span class="event-title">Hermes 自建</span>
-                    </div>
-                    <div class="event-tags">
-                        <span class="tag done">已完成</span>
-                        <span class="tag done">AI基建</span>
-                        <span class="tag done">Local-first</span>
-                    </div>
-                    <div class="event-desc">
-                        <p>2天时间自建 AI 基础设施，超越 3 个月 OpenClaw 的进展。核心架构：Palace 记忆系统、Dream 自动整理、Cron 任务调度、Telegram 网关。</p>
-                        <p>把 AI 定位为"合伙人"而非"顺从仆人"。</p>
-                    </div>
-                </div>
-
-                <div class="event">
-                    <div class="event-dot done"></div>
-                    <div class="event-header">
-                        <span class="event-time">2026.04</span>
-                        <span class="event-title">转专业</span>
-                    </div>
-                    <div class="event-tags">
-                        <span class="tag done">已完成</span>
-                        <span class="tag done">转型</span>
-                    </div>
-                    <div class="event-desc">
-                        <p>从日语专业转入旅游管理学院。血酬计算后的理性选择——不是跟风，是评估后的最优解。</p>
-                    </div>
-                </div>
-
-                <div class="event">
-                    <div class="event-dot ongoing"></div>
-                    <div class="event-header">
-                        <span class="event-time">2026.04</span>
-                        <span class="event-title">nanobot / six6 / Palace</span>
-                    </div>
-                    <div class="event-tags">
-                        <span class="tag ongoing">进行中</span>
-                        <span class="tag ongoing">AI基建</span>
-                        <span class="tag ongoing">自主Agent</span>
-                    </div>
-                    <div class="event-desc">
-                        <p>nanobot 进化到自主 Agent 阶段。six6 认知循环系统同时服务自身进化和 xaohit 的个人发展。</p>
-                        <p>信息源覆盖 AI agent、旅游科技、web3、DeFi、量化交易。</p>
-                    </div>
-                </div>
-
-                <div class="event">
-                    <div class="event-dot ongoing"></div>
-                    <div class="event-header">
-                        <span class="event-time">持续</span>
-                        <span class="event-title">币圈自动交易系统</span>
-                    </div>
-                    <div class="event-tags">
-                        <span class="tag ongoing">进行中</span>
-                        <span class="tag ongoing">暗线资产</span>
-                    </div>
-                    <div class="event-desc">
-                        <p>独立于 nanobot 框架运行的自动化交易系统。现金流来源之一，web3 方向的实践入口。</p>
-                    </div>
-                </div>
-
-                <div class="event">
-                    <div class="event-dot paused"></div>
-                    <div class="event-header">
-                        <span class="event-time">2026.04</span>
-                        <span class="event-title">回忆录 SaaS</span>
-                    </div>
-                    <div class="event-tags">
-                        <span class="tag paused">暂停</span>
-                        <span class="tag paused">产品决策</span>
-                    </div>
-                    <div class="event-desc">
-                        <p>面向 50+ 岁老人的回忆录产品。方向待验证，技术选型（小程序 vs web）待决策。</p>
-                        <p>核心理念：media 是 permissionless leverage。</p>
-                    </div>
-                </div>
-
-                <div class="event">
-                    <div class="event-dot planning"></div>
-                    <div class="event-header">
-                        <span class="event-time">未来</span>
-                        <span class="event-title">web3 + AI</span>
-                    </div>
-                    <div class="event-tags">
-                        <span class="tag planning">规划中</span>
-                        <span class="tag planning">长期方向</span>
-                    </div>
-                    <div class="event-desc">
-                        <p>比特世界（代码/金融）与原子世界（物理/社会/人文）的交叉点。不是"文科生转码"，是"文科生 × AI 产线"。</p>
-                    </div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🏗️</div>
+                <h3>AI 基础设施</h3>
+                <p>搭建 Local-first 的 AI 协作系统。自主 Agent、记忆系统、自动化循环——数据主权，不依赖平台。</p>
+                <div class="service-tags">
+                    <span>Local-first</span>
+                    <span>记忆系统</span>
+                    <span>自主 Agent</span>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Matrix -->
-        <div class="section">
-            <div class="section-title">双世界布局</div>
-            <div class="matrix">
-                <div class="matrix-card">
-                    <div class="matrix-label">比特世界</div>
-                    <div class="matrix-items">
-                        <div class="matrix-item"><strong>币圈交易系统</strong> — 现金流</div>
-                        <div class="matrix-item"><strong>nanobot / six6</strong> — AI 基建</div>
-                        <div class="matrix-item"><strong>回忆录 SaaS</strong> — 内容杠杆（暂停）</div>
-                    </div>
+    <section class="proof" id="proof">
+        <h2 class="section-title">交付记录</h2>
+        <div class="proof-grid">
+            <div class="proof-item">
+                <div class="proof-status done">✓</div>
+                <div class="proof-content">
+                    <h4>Hermes AI 基础设施</h4>
+                    <p>2天自建，超越3个月商业产品的进展。Palace记忆系统 + Dream自动整理 + Cron任务调度。</p>
                 </div>
-                <div class="matrix-card">
-                    <div class="matrix-label">原子世界</div>
-                    <div class="matrix-items">
-                        <div class="matrix-item"><strong>旅游管理学院</strong> — 学业主线</div>
-                        <div class="matrix-item"><strong>回忆录 SaaS</strong> — 人的记忆、代际传承</div>
-                        <div class="matrix-item"><strong>社交哲学</strong> — 中国生存实践</div>
-                    </div>
+            </div>
+            <div class="proof-item">
+                <div class="proof-status done">✓</div>
+                <div class="proof-content">
+                    <h4>six6 认知循环系统</h4>
+                    <p>AI Agent 自主进化框架，同时服务自身进化和个人发展。信息源覆盖AI agent、旅游科技、web3。</p>
+                </div>
+            </div>
+            <div class="proof-item">
+                <div class="proof-status doing">→</div>
+                <div class="proof-content">
+                    <h4>客服AI质检系统</h4>
+                    <p>电商客服8维度质检，行业标准评分，个人报告 + 团队日报。正在对接真实客户。</p>
+                </div>
+            </div>
+            <div class="proof-item">
+                <div class="proof-status dark">◐</div>
+                <div class="proof-content">
+                    <h4>币圈自动交易系统</h4>
+                    <p>独立运行的自动化交易系统，现金流来源之一，web3方向实践入口。</p>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Footer -->
-        <div class="footer">
-            <p>Last updated: 2026.04.21</p>
-            <p style="margin-top: 8px;">Built with nanobot · Powered by Palace</p>
+    <section class="about" id="about">
+        <div class="about-content">
+            <h2 class="section-title">关于我</h2>
+            <div class="about-text">
+                <p><strong>xaohit，20岁，四川自贡。</strong></p>
+                <p>回避型人格，社交回避、启动困难。但<strong>用AI和系统思维把这些缺陷变成了优势</strong>——不依赖人际、不依赖平台、不依赖意志力。</p>
+                <p>底层思维：吴思《血酬定律》《潜规则》、费孝通《乡土中国》。<br>
+                表层思维：芒格多元思维、乔布斯产品观。</p>
+                <p>冲突：中国传统生存哲学 vs 西方现代思维——在这个夹缝里找自己的路。</p>
+                <p><strong>目标：1000万财富自由。</strong>不通过时间换钱，通过系统、自动化、杠杆。</p>
+            </div>
+            <div class="about-traits">
+                <div class="trait">
+                    <span class="trait-label">核心能力</span>
+                    <span class="trait-value">系统构建 · 自动化 · AI 应用</span>
+                </div>
+                <div class="trait">
+                    <span class="trait-label">信息源</span>
+                    <span class="trait-value">AI Agent · 旅游科技 · Web3 · DeFi</span>
+                </div>
+                <div class="trait">
+                    <span class="trait-label">当前状态</span>
+                    <span class="trait-value">转专业中 · 一人公司探索期</span>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2 class="section-title">开始合作</h2>
+        <p class="contact-subtitle">
+            如果你有重复性工作需要自动化，或客服团队需要质检系统，可以聊聊。<br>
+            不擅长面对面沟通，但擅长用文字和系统解决问题。
+        </p>
+        <div class="contact-links">
+            <a href="https://github.com/xaohit" target="_blank" class="contact-link">
+                <span class="contact-icon">⌨</span>
+                <span>GitHub</span>
+            </a>
+            <a href="#" class="contact-link">
+                <span class="contact-icon">✉</span>
+                <span>邮箱</span>
+            </a>
+            <a href="#" class="contact-link">
+                <span class="contact-icon">💬</span>
+                <span>Telegram</span>
+            </a>
+        </div>
+        <p class="contact-note">
+            回复可能不及时，但每个需求都会认真评估。<br>
+            不接需要大量人际协调的项目，只做"系统 + 自动化"方向。
+        </p>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 xaohit · 用系统对抗随机性</p>
+        <p class="footer-built">Built with nanobot · Powered by Palace · 数据主权</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
